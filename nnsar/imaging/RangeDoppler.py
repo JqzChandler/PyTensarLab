@@ -88,27 +88,11 @@ class RCMC(Layer):
         )*np.reshape(
             axis_rg_range,(1, Rg)
         )
-        arrDelta=(self.sensor.get_lambda()**2)*arrDelta/(8*(self.sensor.speed()**2))
-        arrDelta=arrDelta*2*self.sensor.get_sampling_rates().rg()/self.const_c
+        
+        # Comments to be finished
 
         # ======= STEP-4 =======
-        ones2d=np.ones_like(arrDelta)
-        arrDelta=np.cumsum(ones2d,axis=1)+arrDelta-ones2d
-        arrSlideN=np.ceil(arrDelta)
-
-        idxAzCenter=int(arrSlideN.shape[0]/2)
-        vecZeroBiasSlide=arrSlideN[idxAzCenter:idxAzCenter+1, :]
-        arrSlideBias=arrSlideN-vecZeroBiasSlide.repeat(arrSlideN.shape[0], axis=0)
-
-        sinc_roaming=np.max(arrSlideBias)-np.min(arrSlideBias)
-        assert sinc_roaming*2<=ksize, f"Slide roaming range is {sinc_roaming} while sinc_kernel_size being {ksize}, please increase kernel size to be greater than {2*sinc_roaming-1}."
-
-        arrSincParams=arrDelta-arrSlideN+ones2d*ksize/2+ones2d+arrSlideBias
-        arrSincParams=np.expand_dims(arrSincParams, axis=2).repeat(ksize, axis=2)
-        ones3d=np.ones_like(arrSincParams)
-        arrSincParams=arrSincParams-np.cumsum(ones3d, axis=2)
-        arrSincWeight=np.sinc(arrSincParams)
-        arrSincWeight=arrSincWeight/np.expand_dims(np.sum(arrSincWeight,axis=2),axis=2).repeat(ksize,axis=2)
+        # Comments to be finished
 
         self.sinc_weight=nn.Parameter(torch.from_numpy(arrSincWeight),requires_grad=False)
         self.pad=(int(ksize/2),int(ksize/2-1))
