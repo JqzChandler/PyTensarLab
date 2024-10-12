@@ -69,6 +69,6 @@ class LinearFM(Parameter):
     def f0(self):
         return self.__freq0
 
-    def bw(self): # 距离向带宽;发射信号带宽 (Hz)
+    def bw(self): # Along Range Axis (Hz)
         return abs(self.k())*self.t()
         # ^ Textbook:P94
