@@ -13,17 +13,15 @@ class RangeCompression2(Layer):
         super().__init__(sensor, **kwargs)
 
         # ======= STATEMENT =======
-        # To be commented
+        # Comments to be finished
         self.filterH=nn.Parameter(torch.from_numpy(arrPulseF), requires_grad=False)
 
     def forward(self,mat:torch.Tensor):
         # mat: [B, Az, Rg]
-        # print(f"RangeCompression Layer")
-
-        # 频域加窗
-        matF=torch.fft.fft(mat,dim=2) # 进行距离向傅里叶变换，零频在两端
-        matF=matF*self.filterH # 完成距离压缩
-        mat=torch.fft.ifft(matF,dim=2) # 回到二维时域
+        
+        matF=torch.fft.fft(mat,dim=2) # 0-freq at two ends
+        matF=matF*self.filterH # Apply MF
+        mat=torch.fft.ifft(matF,dim=2) # back to 2d time domain
 
         return mat
 
