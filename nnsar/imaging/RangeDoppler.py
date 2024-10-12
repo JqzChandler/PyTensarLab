@@ -111,10 +111,7 @@ class RCMC(Layer):
         matF=torch.fft.fftshift(matF,dim=1)
 
         # ======= STEP-4 =======
-        # convolution
-        # 用卷积的方式实现sinc插值
-        matF=F.pad(matF,self.pad,'circular')
-        matF=matF.unfold(2,self._sinc_kernel_size,1)
+        # Comments to be finished
         mat=torch.sum(self.sinc_weight*matF,dim=3)
 
         return mat
